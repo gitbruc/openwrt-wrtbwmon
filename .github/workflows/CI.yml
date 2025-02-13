@@ -1,19 +1,9 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'release-*'
-    paths:
-      - 'luci-app-wrtbwmon/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'luci-app-wrtbwmon/**'
   workflow_dispatch:
+    paths:
+      - 'luci-app-wrtbwmon/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
