@@ -3,12 +3,12 @@ name: Check
 on:
   push:
     branches:
-      - master
+      - main
     tags-ignore:
       - v*
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
           mkdir bin
           cp -rf ./wrtbwmon ./bin/
           docker pull ghcr.io/openwrt/sdk:tegra-generic-24.10-snapshot
-          docker run --rm -u root -v "$(pwd)"/bin/:/home/build/openwrt/bin -v ${{ github.workspace }}/.github/workflows:/home/build/workflows openwrtorg/sdk:x86-64-19.07-SNAPSHOT /bin/sh /home/build/workflows/build.sh
+          docker run --rm -u root -v "$(pwd)"/bin/:/home/build/openwrt/bin -v ${{ github.workspace }}/.github/workflows:/home/build/workflows ghcr.io/openwrt/sdk:tegra-generic-24.10-snapshot /bin/sh /home/build/workflows/build.sh
       - name: Upload app
         uses: actions/upload-artifact@v2
         with:
