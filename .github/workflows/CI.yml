@@ -24,7 +24,7 @@ jobs:
     name: Build the IPK
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/openwrt/sdk:x86-64-23.05-SNAPSHOT
+      image: ghcr.io/openwrt/sdk:tegra-generic-24.10-snapshot
       options: --user root
     steps:
     - name: Checkout

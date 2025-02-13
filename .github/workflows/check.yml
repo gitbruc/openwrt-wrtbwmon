@@ -21,7 +21,7 @@ jobs:
         run: |
           mkdir bin
           cp -rf ./wrtbwmon ./bin/
-          docker pull openwrtorg/sdk:x86-64-19.07-SNAPSHOT
+          docker pull ghcr.io/openwrt/sdk:tegra-generic-24.10-snapshot
           docker run --rm -u root -v "$(pwd)"/bin/:/home/build/openwrt/bin -v ${{ github.workspace }}/.github/workflows:/home/build/workflows openwrtorg/sdk:x86-64-19.07-SNAPSHOT /bin/sh /home/build/workflows/build.sh
       - name: Upload app
         uses: actions/upload-artifact@v2
