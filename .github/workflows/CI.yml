@@ -1,4 +1,4 @@
-name: CI
+name: luci-app-wrtbwmon
 
 on:
   workflow_dispatch:

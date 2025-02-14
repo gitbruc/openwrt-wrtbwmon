@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Build the IPK
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -15,7 +15,7 @@ jobs:
         mkdir bin
         cp -rf ./wrtbwmon ./bin/
         docker pull ghcr.io/openwrt/sdk:tegra-generic-24.10-snapshot
-        docker run --rm -u root -v "$(pwd)"/bin/:/home/build/openwrt/bin -v ${{ github.workspace }}/.github/workflows:/home/build/workflows openwrtorg/sdk:x86-64-19.07-SNAPSHOT /bin/sh /home/build/workflows/build.sh
+        docker run --rm -u root -v "$(pwd)"/bin/:/home/build/openwrt/bin -v ${{ github.workspace }}/.github/workflows:/home/build/workflows ghcr.io/openwrt/sdk:tegra-generic-24.10-snapshot /bin/sh /home/build/workflows/build.sh
     - name: Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
