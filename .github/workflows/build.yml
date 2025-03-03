@@ -1,4 +1,4 @@
-name: build ipk
+name: build wrtbwmon ipk
 
 on:
   workflow_dispatch:
