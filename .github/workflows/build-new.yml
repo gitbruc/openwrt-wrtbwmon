@@ -1,0 +1,59 @@
+name: build wrtbwmon ipk
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.arch }} build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch:
+          - x86_64
+          
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+    - name: Building packages
+      uses: sbwml/openwrt-gh-action-sdk@go1.24
+      env:
+        ARCH: ${{ matrix.arch }}-openwrt-24.10.0
+        FEEDNAME: packages_ci
+        NO_REFRESH_CHECK: true
+        PACKAGES: luci-app-wrtbwmon
+        
+    - name: Get version from file name
+      id: extract_version
+      run: |
+        filename=$(basename $(find bin/packages/${{ matrix.arch }}/packages_ci -name 'luci-app-wrtbwmon_*.ipk'))
+        version=v$(echo "$filename" | awk -F '_' '{print $2}')
+        echo "::set-output name=version::$version"
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: luci-app-wrtbwmon-${{ matrix.arch }}
+        path: bin/packages/${{ matrix.arch }}/packages_ci/*.ipk
+
+    - name: Upload Build Logs
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-logs
+        path: ./logs
+ 
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: "luci-app-wrtbwmon-${{ steps.extract_version.outputs.version }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
+        replacesArtifacts: true
+        artifacts: "bin/packages/${{ matrix.arch }}/packages_ci/*.ipk"
+
+
+
+
