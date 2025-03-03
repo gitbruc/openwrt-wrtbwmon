@@ -48,7 +48,7 @@ jobs:
     - name: Get version from file name
       id: extract_version
       run: |
-        filename=$(basename $(find bin/packages/${{ matrix.arch }}/packages_ci -name 'luci-app-wrtbwmon_*.ipk'))
+        filename=$(basename $(find ./openwrt/bin/packages/x86_64/luci -name 'luci-app-wrtbwmon_*.ipk'))
         version=v$(echo "$filename" | awk -F '_' '{print $2}')
         echo "::set-output name=version::$version"
 
