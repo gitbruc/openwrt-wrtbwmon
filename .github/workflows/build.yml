@@ -11,34 +11,34 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Set up environment
-        run: |
-            sudo apt-get update
-            sudo apt-get install -y build-essential git wget tar unzip libncurses5-dev libz-dev zstd
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential git wget tar unzip libncurses5-dev libz-dev zstd
     - name: Download and Extract OpenWrt SDK
-        run: |
-            wget https://downloads.openwrt.org/releases/24.10.0/targets/x86/64/openwrt-sdk-24.10.0-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst  # 替换为你的 SDK 下载地址
-            zstd -d openwrt-sdk-24.10.0-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst
-            mv openwrt-sdk-24.10.0-x86-64_gcc-13.3.0_musl.Linux-x86_64 openwrt-sdk
-            cd openwrt-sdk
+      run: |
+        wget https://downloads.openwrt.org/releases/24.10.0/targets/x86/64/openwrt-sdk-24.10.0-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst  # 替换为你的 SDK 下载地址
+        zstd -d openwrt-sdk-24.10.0-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst
+        mv openwrt-sdk-24.10.0-x86-64_gcc-13.3.0_musl.Linux-x86_64 openwrt-sdk
+        cd openwrt-sdk
 
     - name: Build Plugin
-        run: |
-            cd openwrt-sdk
-            ./scripts/feeds update -a
-            ./scripts/feeds install -a
-            git clone https://github.com/gitbruc/openwrt-wrtbwmon.git package/new/luci-app-wrtbwmon
-            make defconfig
-            make package/luci-app-wrtbwmon/compile V=sc -j$(nproc) BUILD_LOG=1
-            tar -cJf logs.tar.xz logs
+      run: |
+        cd openwrt-sdk
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        git clone https://github.com/gitbruc/openwrt-wrtbwmon.git package/new/luci-app-wrtbwmon
+        make defconfig
+        make package/luci-app-wrtbwmon/compile V=sc -j$(nproc) BUILD_LOG=1
+        tar -cJf logs.tar.xz logs
 
     - name: Upload Package
-        uses: actions/upload-artifact@v4
-        with:
-            name: luci-app-wrtbwmon
-            path: /builder/bin/packages/x86_64/*/*wrtbwmon*
+      uses: actions/upload-artifact@v4
+      with:
+        name: luci-app-wrtbwmon
+        path: /builder/bin/packages/x86_64/*/*wrtbwmon*
 
     - name: Upload Build Logs
-        uses: actions/upload-artifact@v4
-        with:
-            name: build-logs
-            path: /builder/logs.tar.xz
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-logs
+        path: /builder/logs.tar.xz
