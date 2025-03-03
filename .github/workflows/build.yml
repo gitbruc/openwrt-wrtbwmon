@@ -44,3 +44,13 @@ jobs:
       with:
         name: build-logs
         path: ./openwrt/logs.tar.xz
+
+    - name: Create release
+      uses: ncipollo/release-action@v1
+      with:
+        name: Luci-app-wrtbwmon
+        allowUpdates: true
+        tag: v1.0.0
+        replacesArtifacts: true
+        token: ${{ secrets.GITHUB_TOKEN }}
+        artifacts: ./openwrt/bin/packages/x86_64/*/*wrtbwmon*
