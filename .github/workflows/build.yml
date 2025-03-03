@@ -10,6 +10,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        path: /builder
     - name: Set up environment
       run: |
         sudo apt-get update
