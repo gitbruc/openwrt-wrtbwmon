@@ -10,14 +10,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-        path: /builder
+
     - name: Set up environment
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential git wget tar unzip libncurses5-dev libz-dev zstd
+
     - name: Download and Extract OpenWrt SDK
-      working-directory: /builder
       run: |
         wget https://downloads.openwrt.org/releases/24.10.0/targets/x86/64/openwrt-sdk-24.10.0-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst
         zstd -d openwrt-sdk-24.10.0-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst
@@ -25,7 +24,6 @@ jobs:
         mv openwrt-sdk-24.10.0-x86-64_gcc-13.3.0_musl.Linux-x86_64 openwrt
 
     - name: Build Plugin
-      working-directory: /builder
       run: |
         cd openwrt
         ./scripts/feeds update -a
@@ -39,10 +37,10 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: luci-app-wrtbwmon
-        path: /builder/openwrt/bin/packages/x86_64/*/*wrtbwmon*
+        path: ./openwrt/bin/packages/x86_64/*/*wrtbwmon*
 
     - name: Upload Build Logs
       uses: actions/upload-artifact@v4
       with:
         name: build-logs
-        path: /builder/openwrt/logs.tar.xz
+        path: ./openwrt/logs.tar.xz
