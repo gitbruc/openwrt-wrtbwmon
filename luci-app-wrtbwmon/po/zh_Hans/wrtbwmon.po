@@ -199,7 +199,7 @@ msgstr "总上传"
 
 #: root/usr/share/luci/menu.d/luci-app-wrtbwmon.json:3
 msgid "Traffic Status"
-msgstr "流量监控"
+msgstr "实时流量监控"
 
 #: htdocs/luci-static/resources/view/wrtbwmon/details.js:180
 msgid "Transfer Speed in Bits"
