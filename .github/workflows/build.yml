@@ -8,8 +8,9 @@ jobs:
     name: Build the IPK
     runs-on: ubuntu-latest
     steps:
-    - name: Set up environment
+    - name: Checkout
         uses: actions/checkout@v4
+    - name: Set up environment
         run: |
             sudo apt-get update
             sudo apt-get install -y build-essential git wget tar unzip libncurses5-dev libz-dev zstd
