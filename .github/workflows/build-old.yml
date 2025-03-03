@@ -50,7 +50,7 @@ jobs:
       run: |
         filename=$(basename $(find ./openwrt/bin/packages/x86_64/luci -name 'luci-app-wrtbwmon_*.ipk'))
         version=v$(echo "$filename" | awk -F '_' '{print $2}')
-        echo "::set-output name=version::$version"
+        echo "version=$version" >> $GITHUB_OUTPUT
 
     - name: Create release
       uses: ncipollo/release-action@v1
